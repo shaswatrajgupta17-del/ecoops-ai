@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16
+    container_name: ecoops-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ecoops
+      POSTGRES_USER: ecoops
+      POSTGRES_PASSWORD: ecoops_dev_only
+    ports:
+      - "5432:5432"
+    volumes:
+      - ecoops_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecoops -d ecoops"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ecoops_pgdata:
